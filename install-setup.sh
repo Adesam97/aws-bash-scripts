@@ -2,12 +2,12 @@
 
 set -e
 
-if aws sts get-caller-identity &>/dev/null; then
-   echo "✅ AWS CLI is already configured."
-   aws sts get-caller-identity
+if aws --version &>/dev/null; then
+   echo "✅ AWS CLI is already installed."
+   aws --version
    exit 0
 else
-   echo "⚠️ AWS CLI is not configured. let's set up"
+   echo "⚠️ AWS CLI is not installed. let's set up"
 fi
 
 sudo apt update -y
