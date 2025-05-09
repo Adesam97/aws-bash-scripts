@@ -7,7 +7,7 @@ if aws sts get-caller-identity &>/dev/null; then
    aws sts get-caller-identity
    exit 0
 else
-   echo "⚠️ AWS CLI is not configured."
+   echo "⚠️ AWS CLI is not configured. let's set up"
 fi
 
 sudo apt update -y
