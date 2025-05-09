@@ -1,5 +1,15 @@
 #! bin/bash
 
+set -e
+
+if aws sts get-caller-identity &>/dev/null; then
+   echo "✅ AWS CLI is already configured."
+   aws sts get-caller-identity
+   exit 0
+else
+   echo "⚠️ AWS CLI is not configured."
+fi
+
 sudo apt update -y
 sudo apt install -y curl unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -20,4 +30,5 @@ aws configure set output "$AWS_OUTPUT_FORMAT"
 echo ""
 echo "============================"
 echo "AWS CLI configured successfully!"
+echo "============================"
 aws sts get-caller-identity
