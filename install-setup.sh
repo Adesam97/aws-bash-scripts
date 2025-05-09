@@ -26,6 +26,7 @@ else
    echo "⚠️ AWS CLI is not configured. Let's configure!"
 fi
 #take input for secret and access key
+while true; do
 read -p "Enter your AWS Access Key ID: " AWS_ACCESS_KEY_ID
 read -p "Enter your AWS Secret Access Key: " AWS_SECRET_ACCESS_KEY
 read -p "Enter your AWS Default Region (e.g., us-east-1): " AWS_DEFAULT_REGION
@@ -35,8 +36,21 @@ aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
 aws configure set region "$AWS_DEFAULT_REGION"
 aws configure set output "$AWS_OUTPUT_FORMAT"
 
+echo "🧪 Verifying credentials..."
+  if aws sts get-caller-identity &>/dev/null; then
+      break
+    else
+      echo "❌ Invalid AWS credentials."
+      read -p "Do you want to retry? (yes/no): " choice
+      if [[ "$choice" != "yes" ]]; then
+        echo "Exiting setup."
+        exit 1
+      fi
+    fi
+  done
+
 echo ""
 echo "============================"
-echo "AWS CLI configured successfully!"
+echo "✅ AWS CLI configured successfully!"
 echo "============================"
 aws sts get-caller-identity
