@@ -5,7 +5,6 @@ set -e
 if aws --version &>/dev/null; then
    echo "✅ AWS CLI is already installed."
    aws --version
-   exit 0
 else
    echo "⚠️ AWS CLI is not installed. let's set up"
    sudo apt update -y
