@@ -6,7 +6,7 @@ if aws --version &>/dev/null; then
    echo "✅ AWS CLI is already installed."
    aws --version
 else
-   echo "⚠️ AWS CLI is not installed. let's set up"
+   echo "⚠️ AWS CLI is not installed. let's set up!"
    sudo apt update -y
    sudo apt install -y curl unzip
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -16,6 +16,10 @@ else
    rm -rf awscliv2.zip aws
 fi
 rm -rf awscliv2.zip aws
+echo ""
+echo "============================"
+echo "✅ AWS CLI installed successfully!"
+echo "============================"
 
 echo "Let's check if you've configured aws-cli"
 if aws sts get-caller-identity &>/dev/null; then
