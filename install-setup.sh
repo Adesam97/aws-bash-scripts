@@ -46,12 +46,12 @@ else
       echo "❌ Unsupported operating system: $OS"
       exit 1
    fi
+   rm -rf awscliv2.zip aws
+   echo ""
+   echo "============================"
+   echo "✅ AWS CLI installed successfully!"
+   echo "============================"
 fi
-rm -rf awscliv2.zip aws
-echo ""
-echo "============================"
-echo "✅ AWS CLI installed successfully!"
-echo "============================"
 
 echo "Let's check if you've configured aws-cli"
 if aws sts get-caller-identity &>/dev/null; then
