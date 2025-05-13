@@ -3,36 +3,48 @@
 set -e
 OS=$(uname -s)
 
+get_distro() {
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    echo "$ID"
+  else
+    echo ""
+  fi
+}
+
 if aws --version &>/dev/null; then
    echo "✅ AWS CLI is already installed."
    aws --version
 else
+   echo "⚠️ AWS CLI is not installed. let's set up!"
+   #linux 
    if [[ "$OS" == "Linux" ]]; then
-      #linux 
-      echo "⚠️ AWS CLI is not installed. let's set up!"
-      sudo yum update -y
-      sudo yum install -y curl unzip
+      DISTRO=$(get_distro)
+      if [[ "$DISTRO" == "ubuntu" || "$DISTRO" == "debian" ]]; then
+        sudo apt update -y
+        sudo apt install -y curl unzip
+      elif [[ "$DISTRO" == "amzn" || "$DISTRO" == "centos" || "$DISTRO" == "rhel" ]]; then
+        sudo yum update -y
+        sudo yum install -y curl unzip
+      else
+        echo "❌ Unsupported Linux distribution: $DISTRO"
+        exit 1
+      fi
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       unzip awscliv2.zip
       sudo ./aws/install   #install awscli
       aws --version
       rm -rf awscliv2.zip aws
-   elif
-      #ubuntu
-      sudo apt update -y
-      sudo apt install -y curl unzip
-      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      unzip awscliv2.zip
-      sudo ./aws/install   #install awscli
-      aws --version
-      rm -rf awscliv2.zip aws
-   else
+   elif [[ "$OS" == "Darwin" ]]; then
       # macOS
       if ! command -v brew &>/dev/null; then
         echo "❌ Homebrew not found. Please install Homebrew first: https://brew.sh"
         exit 1
       fi
       brew install awscli
+   else
+      echo "❌ Unsupported operating system: $OS"
+      exit 1
    fi
 fi
 rm -rf awscliv2.zip aws
