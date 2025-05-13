@@ -1,19 +1,38 @@
 #!/bin/bash
 
 set -e
+OS=$(uname -s)
 
 if aws --version &>/dev/null; then
    echo "✅ AWS CLI is already installed."
    aws --version
 else
-   echo "⚠️ AWS CLI is not installed. let's set up!"
-   sudo apt update -y
-   sudo apt install -y curl unzip
-   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-   unzip awscliv2.zip
-   sudo ./aws/install   #install awscli
-   aws --version
-   rm -rf awscliv2.zip aws
+   if [[ "$OS" == "Linux" ]]; then
+      #linux 
+      echo "⚠️ AWS CLI is not installed. let's set up!"
+      sudo yum update -y
+      sudo yum install -y curl unzip
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install   #install awscli
+      aws --version
+      rm -rf awscliv2.zip aws
+   elif
+      #ubuntu
+      sudo apt update -y
+      sudo apt install -y curl unzip
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install   #install awscli
+      aws --version
+      rm -rf awscliv2.zip aws
+   else
+      # macOS
+      if ! command -v brew &>/dev/null; then
+        echo "❌ Homebrew not found. Please install Homebrew first: https://brew.sh"
+        exit 1
+      fi
+      brew install awscli
 fi
 rm -rf awscliv2.zip aws
 echo ""
