@@ -33,6 +33,7 @@ else
         exit 1
       fi
       brew install awscli
+   fi
 fi
 rm -rf awscliv2.zip aws
 echo ""
