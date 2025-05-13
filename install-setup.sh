@@ -44,6 +44,7 @@ else
       brew install awscli
    else
       echo "❌ Unsupported operating system: $OS"
+      echo "If you are on a windows machine run this command in powershell: msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi, then restart your code editor"
       exit 1
    fi
    rm -rf awscliv2.zip aws
