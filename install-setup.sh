@@ -58,7 +58,13 @@ echo "Let's check if you've configured aws-cli"
 if aws sts get-caller-identity &>/dev/null; then
    echo "✅ AWS CLI is already configured."
    aws sts get-caller-identity
-   exit 0
+   read -p "Do you want to reconfigure?(yes/no): " CHOICE
+   if [[ "$CHOICE" == "yes" ]]; then
+      echo "Let's reconfigure!!"
+   else 
+      echo "Setup Complete!."
+      exit 0
+   fi
 else
    echo "⚠️ AWS CLI is not configured. Let's configure!"
 fi
