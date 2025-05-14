@@ -33,12 +33,12 @@ LOG_STREAM=$(aws logs describe-log-streams \
   --query "logStreams[0].logStreamName" \
   --output text)
 
-if [ -z "$LOG_STREAM" ]; then
+if [ "$LOG_STREAM" == "None" ]; then
   echo "❌ No log streams found in group: $LOG_GROUP"
   exit 1
 fi
 
-echo "✅ Found stream: $LATEST_STREAM"
+echo "✅ Found stream: $LOG_STREAM"
 OUTPUT_FILE="logs-${LOG_GROUP//\//_}-$(date +%Y%m%d-%H%M%S).txt"
 
 aws logs get-log-events \
